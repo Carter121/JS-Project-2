@@ -1,0 +1,8 @@
+{
+	"scripts": {
+		"scss": "sass --watch styles/scss:styles/css"
+	},
+	"dependencies": {
+		"advanced-calculator": "^1.1.0"
+	}
+}

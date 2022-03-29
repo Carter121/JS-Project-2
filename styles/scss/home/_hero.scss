@@ -1,0 +1,171 @@
+.hero {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	background-color: #ccc;
+	padding: 4rem;
+	display: grid;
+	grid-template-rows: 90% 10%;
+	grid-template-columns: 1fr;
+	place-items: center;
+	overflow: hidden;
+	text-align: center;
+	font-size: 3rem;
+
+	img {
+		max-width: 90%;
+		max-height: 90%;
+		position: relative;
+		z-index: 1;
+	}
+
+	.hero--main {
+		display: grid;
+		grid-template-columns: repeat(2, 50%);
+		place-items: center;
+		height: 100%;
+		width: 100%;
+	}
+
+	.scroll-down {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		h3 {
+			font-size: 2rem;
+			font-weight: 100;
+		}
+
+		a {
+			color: black;
+			text-decoration: none;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		$base: 0.6rem;
+
+		.chevron {
+			position: absolute;
+			width: $base * 3.5;
+			height: $base * 0.8;
+			opacity: 0;
+			transform: scale(0.3);
+			animation: move-chevron 3s ease-out infinite;
+		}
+
+		.chevron:first-child {
+			animation: move-chevron 3s ease-out 1s infinite;
+		}
+
+		.chevron:nth-child(2) {
+			animation: move-chevron 3s ease-out 2s infinite;
+		}
+
+		.chevron:before,
+		.chevron:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			height: 100%;
+			width: 50%;
+			background: #2c3e50;
+		}
+
+		.chevron:before {
+			left: 0;
+			transform: skewY(30deg);
+		}
+
+		.chevron:after {
+			right: 0;
+			width: 50%;
+			transform: skewY(-30deg);
+		}
+
+		@keyframes move-chevron {
+			25% {
+				opacity: 1;
+			}
+			33.3% {
+				opacity: 1;
+				transform: translateY($base * 3.8);
+			}
+			66.6% {
+				opacity: 1;
+				transform: translateY($base * 5.2);
+			}
+			100% {
+				opacity: 0;
+				transform: translateY($base * 8) scale(0.5);
+			}
+		}
+	}
+
+	h1 {
+		position: relative;
+		z-index: 2;
+		background: #667db6; /* fallback for old browsers */
+		background: -webkit-linear-gradient(
+			to right,
+			#667db6,
+			#0082c8,
+			#0082c8,
+			#667db6
+		); /* Chrome 10-25, Safari 5.1-6 */
+		background: linear-gradient(
+			to right,
+			#667db6,
+			#0082c8,
+			#0082c8,
+			#667db6
+		); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
+
+		font-weight: 300;
+	}
+
+	em {
+		font-style: normal;
+		font-weight: 700;
+	}
+
+	.scroll-down {
+		grid-row: 2;
+		column-span: all;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	@media screen and (max-width: 1200px) {
+		.hero--main {
+			grid-template-rows: repeat(2, 50%);
+			grid-template-columns: 1fr;
+			font-size: 1.5rem;
+		}
+	}
+
+	@media screen and (max-width: 700px) {
+		.hero--main {
+			font-size: 5vw;
+		}
+	}
+}
+
+header::after {
+	content: "";
+	background: linear-gradient(#ccc, #fff);
+	height: 10rem;
+	width: 100%;
+	top: 100%;
+	left: 0;
+	position: absolute;
+}
