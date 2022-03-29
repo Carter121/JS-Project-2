@@ -1,64 +1,80 @@
 nav {
-  background-color: #222;
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  width: 100%;
+	background-color: #222;
+	height: 4rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5rem;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	width: 100%;
 }
 nav a {
-  color: white;
-  text-decoration: none;
+	color: white;
+	text-decoration: none;
 }
 nav ul {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	list-style: none;
 }
 
 main {
-  padding-top: 5rem;
-  height: 100vh;
-  display: grid;
-  place-items: center;
+	padding-top: 5rem;
+	height: 100vh;
+	display: grid;
+	place-items: center;
 }
 main .card {
-  display: grid;
-  justify-items: center;
-  grid-template-rows: 20%;
-  grid-template-columns: 1fr;
-  background-color: #eee;
-  width: 30rem;
-  aspect-ratio: 3/4;
-  border-radius: 5rem;
+	display: grid;
+	justify-items: center;
+	grid-template-rows: 20%;
+	grid-template-columns: 1fr;
+	background-color: #eee;
+	width: 30rem;
+	aspect-ratio: 3/4;
+	border-radius: 5rem;
+}
+main .card h2 {
+	max-width: 80%;
+	text-align: center;
+	margin: auto;
 }
 main .header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 main ul {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 2rem;
+	margin-top: 2rem;
+	list-style: none;
+}
+main li {
+	background-color: #fff;
+	padding: 0.5rem;
+	border-radius: 5000em;
+	width: 20%;
+	text-align: center;
+}
+main .answer {
+	cursor: pointer;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Roboto";
-  scroll-behavior: smooth;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Roboto";
+	scroll-behavior: smooth;
 }
 
 /*# sourceMappingURL=style.css.map */

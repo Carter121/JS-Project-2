@@ -1,31 +1,45 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+const questionTitle = document.getElementById("title");
+const questionList = document.getElementById("list");
+const questionNumEl = document.getElementById("questionNum");
 
 if (urlParams.get("questions") == null || urlParams.get("answers") == null) {
 	window.location.href = "/";
 }
-console.log(urlParams.get("questions"));
-console.log(urlParams.get("answers"));
+
+const numOfQuestions = urlParams.get("questions");
+let numOfAnswers = urlParams.get("answers");
+
+if (numOfAnswers < 4) {
+	numOfAnswers = 4;
+}
+if (numOfAnswers > 6) {
+	numOfAnswers = 6;
+}
+
+let questionNumber = urlParams.get("question");
+questionNumber = parseInt(questionNumber);
 
 const questions = [
 	{
-		title: "g(n) = n^2 + 4 + 2n\nh(n) = -3n+2\nFind (g*h)(1)",
+		title: "g(n) = n^2 + 4 + 2n<br>h(n) = -3n+2<br>Find (g*h)(1)",
 		answer: 7,
 	},
 	{
-		title: "f(x) = 4x - 3\ng(x) = x^3 + 2x\nFind (f-g)(4)",
+		title: "f(x) = 4x - 3<br>g(x) = x^3 + 2x<br>Find (f-g)(4)",
 		answer: -59,
 	},
 	{
-		title: "h(x) = 3x + 3\ng(x) = -4x + 1\nFind (g+g)(10)",
+		title: "h(x) = 3x + 3<br>g(x) = -4x + 1<br>Find (h+g)(10)",
 		answer: -6,
 	},
 	{
-		title: "g(a) = 3a + 2\nf(a) = 2a - 4\nFind (g/f)(3)",
+		title: "g(a) = 3a + 2<br>f(a) = 2a - 4<br>Find (g/f)(3)",
 		answer: "11 / 2",
 	},
 	{
-		title: "g(x) = 2x -5\nh(x) = 4x + 5\nFind g(3)-h(3)",
+		title: "g(x) = 2x -5<br>h(x) = 4x + 5<br>Find g(3)-h(3)",
 		answer: -16,
 	},
 	{
@@ -296,4 +310,215 @@ const questions = [
 		title: "Perimeter of a square with a side measuring 27",
 		answer: 108,
 	},
+	{
+		title: "Area of a circle with a radius of 54 (Round to 2 decimal places)",
+		answer: "9160.88",
+	},
+	{
+		title: "Area of a circle with a radius of 77 (Round to 2 decimal places)",
+		answer: "18626.50",
+	},
+	{
+		title: "Area of a circle with a radius of 68 (Round to 2 decimal places)",
+		answer: "14526.72",
+	},
+	{
+		title: "Area of a circle with a radius of 73 (Round to 2 decimal places)",
+		answer: "16741.55",
+	},
+	{
+		title: "Area of a circle with a radius of 43 (Round to 2 decimal places)",
+		answer: "5808.80",
+	},
+	{
+		title: "Area of a circle with a radius of 75 (Round to 2 decimal places)",
+		answer: "17671.46",
+	},
+	{
+		title: "Area of a circle with a radius of 91 (Round to 2 decimal places)",
+		answer: "26015.53",
+	},
+	{
+		title: "Area of a circle with a radius of 23 (Round to 2 decimal places)",
+		answer: "1661.90",
+	},
+	{
+		title: "Area of a circle with a radius of 12 (Round to 2 decimal places)",
+		answer: "452.39",
+	},
+	{
+		title: "Area of a circle with a radius of 76 (Round to 2 decimal places)",
+		answer: "18145.84",
+	},
+	{
+		title: "Area of a circle with a radius of 23 (Round to 2 decimal places)",
+		answer: "1661.90",
+	},
+	{
+		title: "Area of a circle with a radius of 8 (Round to 2 decimal places)",
+		answer: "201.06",
+	},
+	{
+		title: "Area of a circle with a radius of 98 (Round to 2 decimal places)",
+		answer: "30171.86",
+	},
+	{
+		title: "Area of a circle with a radius of 40 (Round to 2 decimal places)",
+		answer: "5026.55",
+	},
+	{
+		title: "Area of a circle with a radius of 80 (Round to 2 decimal places)",
+		answer: "20106.19",
+	},
+	{
+		title: "Area of a circle with a radius of 28 (Round to 2 decimal places)",
+		answer: "2463.01",
+	},
+	{
+		title: "Area of a circle with a radius of 86 (Round to 2 decimal places)",
+		answer: "23235.22",
+	},
+	{
+		title: "Area of a circle with a radius of 44 (Round to 2 decimal places)",
+		answer: "6082.12",
+	},
+	{
+		title: "Area of a circle with a radius of 18 (Round to 2 decimal places)",
+		answer: "1017.88",
+	},
+	{
+		title: "Area of a circle with a radius of 1 (Round to 2 decimal places)",
+		answer: "3.14",
+	},
+	{
+		title: "Area of a triangle with a base of 76 and a height of 66",
+		answer: 2508,
+	},
+	{
+		title: "Area of a triangle with a base of 87 and a height of 5",
+		answer: 217.5,
+	},
+	{
+		title: "Area of a triangle with a base of 7 and a height of 55",
+		answer: 192.5,
+	},
+	{
+		title: "Area of a triangle with a base of 71 and a height of 24",
+		answer: 852,
+	},
+	{
+		title: "Area of a triangle with a base of 35 and a height of 8",
+		answer: 140,
+	},
+	{
+		title: "Area of a triangle with a base of 53 and a height of 57",
+		answer: 1510.5,
+	},
+	{
+		title: "Area of a triangle with a base of 40 and a height of 25",
+		answer: 500,
+	},
+	{
+		title: "Area of a triangle with a base of 6 and a height of 19",
+		answer: 57,
+	},
+	{
+		title: "Area of a triangle with a base of 63 and a height of 52",
+		answer: 1638,
+	},
+	{
+		title: "Area of a triangle with a base of 6 and a height of 19",
+		answer: 57,
+	},
+	{
+		title: "Area of a triangle with a base of 30 and a height of 15",
+		answer: 225,
+	},
+	{
+		title: "Area of a triangle with a base of 93 and a height of 81",
+		answer: 3766.5,
+	},
+	{
+		title: "Area of a triangle with a base of 64 and a height of 42",
+		answer: 1344,
+	},
+	{
+		title: "Area of a triangle with a base of 97 and a height of 17",
+		answer: 824.5,
+	},
+	{
+		title: "Area of a triangle with a base of 60 and a height of 83",
+		answer: 2490,
+	},
+	{
+		title: "Area of a triangle with a base of 82 and a height of 7",
+		answer: 287,
+	},
+	{
+		title: "Area of a triangle with a base of 39 and a height of 80",
+		answer: 1560,
+	},
+	{
+		title: "Area of a triangle with a base of 59 and a height of 14",
+		answer: 413,
+	},
+	{
+		title: "Area of a triangle with a base of 91 and a height of 3",
+		answer: 1410.5,
+	},
+	{
+		title: "Area of a triangle with a base of 11 and a height of 61",
+		answer: 335.5,
+	},
 ];
+
+displayQuestion();
+
+function displayQuestion() {
+	if (localStorage.getItem("questions") != null) {
+		const currentQuestion = JSON.parse(localStorage.getItem("questions"))[
+			questionNumber
+		];
+		questionTitle.innerHTML = currentQuestion.title;
+		questionNumEl.textContent = `Question #${questionNumber + 1}`;
+		displayAnswers(currentQuestion);
+	} else {
+		getQuestions();
+		displayQuestion();
+	}
+}
+
+function displayAnswers(question) {
+	const correctPlace = Math.floor(Math.random() * numOfAnswers);
+	for (let i = 0; i < numOfAnswers; i++) {
+		const answerEl = document.createElement("li");
+
+		if (i == correctPlace) {
+			answerEl.textContent = question.answer;
+		} else {
+			answerEl.textContent =
+				questions[Math.round(Math.random() * questions.length - 1)].answer;
+		}
+		answerEl.classList.add("answer");
+		questionList.appendChild(answerEl);
+
+		answerEl.addEventListener("click", () => {
+			checkAnswer(answerEl.textContent, question);
+		});
+	}
+}
+
+function getQuestions() {
+	let tempQuestions = [];
+	for (let i = 0; i < numOfQuestions; i++) {
+		const questionIndex = Math.round(Math.random() * questions.length);
+		tempQuestions.push(questions[questionIndex]);
+	}
+	localStorage.setItem("questions", JSON.stringify(tempQuestions));
+}
+
+function checkAnswer(input, question) {
+	if (input == question.answer) {
+		localStorage.setItem("");
+	}
+}

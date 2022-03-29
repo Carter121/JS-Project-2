@@ -6,5 +6,5 @@ startQuizBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	console.log(numOfQuestions.value);
 	console.log(numOfAnswers.value);
-	window.location.href = `/quiz/?questions=${numOfQuestions.value}&answers=${numOfAnswers.value}`;
+	window.location.href = `/quiz/?questions=${numOfQuestions.value}&answers=${numOfAnswers.value}&question=0`;
 });
