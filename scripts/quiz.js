@@ -1,16 +1,22 @@
+//* url params
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+
+//* elements
 const questionTitle = document.getElementById("title");
 const questionList = document.getElementById("list");
 const questionNumEl = document.getElementById("questionNum");
 
+//* if there are no url params then go to the home screen
 if (urlParams.get("questions") == null || urlParams.get("answers") == null) {
 	window.location.href = "/";
 }
 
+//* get num of questions from the url
 const numOfQuestions = urlParams.get("questions");
-let numOfAnswers = urlParams.get("answers");
 
+//* make sure there are only 4, 5, or 6 choices
+let numOfAnswers = urlParams.get("answers");
 if (numOfAnswers < 4) {
 	numOfAnswers = 4;
 }
@@ -18,37 +24,39 @@ if (numOfAnswers > 6) {
 	numOfAnswers = 6;
 }
 
+//* get what question the user is on
 let questionNumber = urlParams.get("question");
 questionNumber = parseInt(questionNumber);
+//* show the 'win' screen if the user finishes
+if (questionNumber == numOfQuestions) {
+	window.location.href = "/quiz/win";
+}
 
+//* get the current scores
+let scores = JSON.parse(localStorage.getItem("scores"));
+if (scores == null) scores = [];
+
+//* Lots of questions
 const questions = [
 	{
-		title: "g(n) = n^2 + 4 + 2n<br>h(n) = -3n+2<br>Find (g*h)(1)",
+		title: "g(n) = n^2 + 4 + 2n; h(n) = -3n+2<br>Find (g*h)(1)",
 		answer: 7,
 	},
 	{
-		title: "f(x) = 4x - 3<br>g(x) = x^3 + 2x<br>Find (f-g)(4)",
+		title: "f(x) = 4x - 3; g(x) = x^3 + 2x<br>Find (f-g)(4)",
 		answer: -59,
 	},
 	{
-		title: "h(x) = 3x + 3<br>g(x) = -4x + 1<br>Find (h+g)(10)",
+		title: "h(x) = 3x + 3; g(x) = -4x + 1<br>Find (h+g)(10)",
 		answer: -6,
 	},
 	{
-		title: "g(a) = 3a + 2<br>f(a) = 2a - 4<br>Find (g/f)(3)",
+		title: "g(a) = 3a + 2; f(a) = 2a - 4<br>Find (g/f)(3)",
 		answer: "11 / 2",
 	},
 	{
-		title: "g(x) = 2x -5<br>h(x) = 4x + 5<br>Find g(3)-h(3)",
+		title: "g(x) = 2x -5; h(x) = 4x + 5<br>Find g(3)-h(3)",
 		answer: -16,
-	},
-	{
-		title: "6*7",
-		answer: 42,
-	},
-	{
-		title: "5*5",
-		answer: 25,
 	},
 	{
 		title: "sqrt of 25",
@@ -472,8 +480,11 @@ const questions = [
 	},
 ];
 
+//* display the current question
 displayQuestion();
 
+//* display the current question if it exists in local storage
+//* or make questions and store them in local storage
 function displayQuestion() {
 	if (localStorage.getItem("questions") != null) {
 		const currentQuestion = JSON.parse(localStorage.getItem("questions"))[
@@ -488,6 +499,7 @@ function displayQuestion() {
 	}
 }
 
+//* load random answers and save the location of the correct answer
 function displayAnswers(question) {
 	const correctPlace = Math.floor(Math.random() * numOfAnswers);
 	for (let i = 0; i < numOfAnswers; i++) {
@@ -496,29 +508,73 @@ function displayAnswers(question) {
 		if (i == correctPlace) {
 			answerEl.textContent = question.answer;
 		} else {
-			answerEl.textContent =
-				questions[Math.round(Math.random() * questions.length - 1)].answer;
+			const rand = Math.round(Math.random() * (questions.length - 1));
+			const rand2 = Math.round(Math.random() * (questions.length - 1));
+			if (questions[rand].answer == question.answer) {
+				answerEl.textContent = questions[rand2].answer;
+			} else {
+				answerEl.textContent = questions[rand].answer;
+			}
 		}
 		answerEl.classList.add("answer");
 		questionList.appendChild(answerEl);
 
 		answerEl.addEventListener("click", () => {
-			checkAnswer(answerEl.textContent, question);
+			checkAnswer(answerEl.textContent, question, correctPlace);
 		});
 	}
 }
 
+//* get random questions and save them to local storage
 function getQuestions() {
 	let tempQuestions = [];
 	for (let i = 0; i < numOfQuestions; i++) {
-		const questionIndex = Math.round(Math.random() * questions.length);
+		const questionIndex = Math.round(Math.random() * (questions.length - 1));
 		tempQuestions.push(questions[questionIndex]);
 	}
 	localStorage.setItem("questions", JSON.stringify(tempQuestions));
 }
 
-function checkAnswer(input, question) {
-	if (input == question.answer) {
-		localStorage.setItem("");
+//* check the answer and only allow the user to select one
+let selectedAnswer = false;
+function checkAnswer(input, question, correctPlace) {
+	if (input == question.answer && !selectedAnswer) {
+		displayCorrect(true, correctPlace, input);
+		scores[questionNumber] = true;
+		localStorage.setItem("scores", JSON.stringify(scores));
+		selectedAnswer = true;
+		setTimeout(() => {
+			window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
+				questionNumber + 1
+			}`;
+		}, 1250);
+	} else if (input != question.answer && !selectedAnswer) {
+		displayCorrect(false, correctPlace, input);
+		scores[questionNumber] = false;
+		localStorage.setItem("scores", JSON.stringify(scores));
+		selectedAnswer = true;
+		setTimeout(() => {
+			window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
+				questionNumber + 1
+			}`;
+		}, 1250);
+	}
+}
+
+//* change the background color for if it's correct or incorrect
+function displayCorrect(isCorrect, correctPlace, clicked) {
+	if (isCorrect) {
+		const allAnswers = document.querySelectorAll(".answer");
+		const correctAnswer = allAnswers[correctPlace];
+		correctAnswer.classList.add("correct");
+	} else {
+		const allAnswers = document.querySelectorAll(".answer");
+		let selectedAnswer;
+		for (let i = 0; i < allAnswers.length; i++) {
+			if (allAnswers[i].textContent == clicked) {
+				selectedAnswer = allAnswers[i];
+			}
+		}
+		selectedAnswer.classList.add("incorrect");
 	}
 }

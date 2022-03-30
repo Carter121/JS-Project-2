@@ -14,10 +14,12 @@ main {
 		background-color: #eee;
 		width: 30rem;
 		aspect-ratio: 3/4;
+		height: fit-content;
 		border-radius: 5rem;
+		padding: 2rem;
 
 		h2 {
-			max-width: 80%;
+			// max-width: 80%;
 			text-align: center;
 			margin: auto;
 		}
@@ -37,6 +39,7 @@ main {
 		gap: 2rem;
 		margin-top: 2rem;
 		list-style: none;
+		width: 100%;
 	}
 
 	li {
@@ -45,9 +48,38 @@ main {
 		border-radius: 5000em;
 		width: 20%;
 		text-align: center;
+		position: relative;
 	}
 
 	.answer {
 		cursor: pointer;
+		opacity: 0.8;
+		&:hover {
+			opacity: 1;
+		}
+		user-select: none;
+	}
+
+	.title-div {
+		width: 80%;
+		margin: auto;
+	}
+
+	@media screen and (max-width: 30rem) {
+		.card {
+			width: 100%;
+		}
+	}
+
+	.correct {
+		background-color: rgb(12, 192, 12);
+		opacity: 1;
+		color: white;
+	}
+
+	.incorrect {
+		background-color: red;
+		opacity: 1;
+		color: white;
 	}
 }
