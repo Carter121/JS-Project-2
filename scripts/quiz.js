@@ -12,24 +12,25 @@ if (urlParams.get("questions") == null || urlParams.get("answers") == null) {
 	window.location.href = "/";
 }
 
+//* get debug mode
+const debugMode = JSON.parse(urlParams.get("debug"));
+
 //* get num of questions from the url
-const numOfQuestions = urlParams.get("questions");
+let numOfQuestions = urlParams.get("questions");
+if (numOfQuestions < 1) numOfQuestions = 1;
+if (numOfQuestions > 20) numOfQuestions = 20;
 
 //* make sure there are only 4, 5, or 6 choices
 let numOfAnswers = urlParams.get("answers");
-if (numOfAnswers < 4) {
-	numOfAnswers = 4;
-}
-if (numOfAnswers > 6) {
-	numOfAnswers = 6;
-}
+if (numOfAnswers < 4) numOfAnswers = 4;
+if (numOfAnswers > 6) numOfAnswers = 6;
 
 //* get what question the user is on
 let questionNumber = urlParams.get("question");
 questionNumber = parseInt(questionNumber);
 //* show the 'win' screen if the user finishes
 if (questionNumber == numOfQuestions) {
-	window.location.href = "/quiz/win";
+	window.location.href = `/quiz/win/?questions=${numOfQuestions}`;
 }
 
 //* get the current scores
@@ -486,7 +487,14 @@ displayQuestion();
 //* display the current question if it exists in local storage
 //* or make questions and store them in local storage
 function displayQuestion() {
+	localStorage.removeItem("scores");
 	if (localStorage.getItem("questions") != null) {
+		if (
+			JSON.parse(localStorage.getItem("questions")).length != numOfQuestions
+		) {
+			localStorage.removeItem("questions");
+			displayQuestion();
+		}
 		const currentQuestion = JSON.parse(localStorage.getItem("questions"))[
 			questionNumber
 		];
@@ -523,6 +531,11 @@ function displayAnswers(question) {
 			checkAnswer(answerEl.textContent, question, correctPlace);
 		});
 	}
+	if (debugMode) {
+		document.querySelector(
+			".correctAns"
+		).innerHTML = `Debug<br>Correct Answer: ${question.answer}`;
+	}
 }
 
 //* get random questions and save them to local storage
@@ -544,9 +557,15 @@ function checkAnswer(input, question, correctPlace) {
 		localStorage.setItem("scores", JSON.stringify(scores));
 		selectedAnswer = true;
 		setTimeout(() => {
-			window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
-				questionNumber + 1
-			}`;
+			if (!debugMode) {
+				window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
+					questionNumber + 1
+				}`;
+			} else {
+				window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
+					questionNumber + 1
+				}&debug=true`;
+			}
 		}, 1250);
 	} else if (input != question.answer && !selectedAnswer) {
 		displayCorrect(false, correctPlace, input);
@@ -554,9 +573,15 @@ function checkAnswer(input, question, correctPlace) {
 		localStorage.setItem("scores", JSON.stringify(scores));
 		selectedAnswer = true;
 		setTimeout(() => {
-			window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
-				questionNumber + 1
-			}`;
+			if (!debugMode) {
+				window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
+					questionNumber + 1
+				}`;
+			} else {
+				window.location.href = `/quiz/?questions=${numOfQuestions}&answers=${numOfAnswers}&question=${
+					questionNumber + 1
+				}&debug=true`;
+			}
 		}, 1250);
 	}
 }

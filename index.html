@@ -62,5 +62,19 @@
 				</form>
 			</section>
 		</main>
+		<div class="secret"></div>
+		<script>
+			const secret = document.querySelector(".secret");
+			const body = document.querySelector("body");
+			const hero = document.querySelector(".hero");
+			secret.addEventListener("mouseover", () => {
+				body.style.backgroundColor = "red";
+				hero.style.backgroundColor = "red";
+			});
+			secret.addEventListener("mouseout", () => {
+				body.style.backgroundColor = "white";
+				hero.style.backgroundColor = "#ccc";
+			});
+		</script>
 	</body>
 </html>

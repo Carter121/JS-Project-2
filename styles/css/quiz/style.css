@@ -95,6 +95,11 @@ main .incorrect {
   opacity: 1;
   color: white;
 }
+main .correctAns {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
 
 * {
   margin: 0;
