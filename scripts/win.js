@@ -9,6 +9,7 @@ const questions = urlParams.get("questions");
 
 //* get the scores from local storage
 const scoreArr = JSON.parse(localStorage.getItem("scores"));
+console.log(scoreArr);
 let score = 0;
 
 //* count how many correct answers

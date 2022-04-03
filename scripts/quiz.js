@@ -487,7 +487,6 @@ displayQuestion();
 //* display the current question if it exists in local storage
 //* or make questions and store them in local storage
 function displayQuestion() {
-	localStorage.removeItem("scores");
 	if (localStorage.getItem("questions") != null) {
 		if (
 			JSON.parse(localStorage.getItem("questions")).length != numOfQuestions
@@ -502,6 +501,7 @@ function displayQuestion() {
 		questionNumEl.textContent = `Question #${questionNumber + 1}`;
 		displayAnswers(currentQuestion);
 	} else {
+		localStorage.removeItem("scores");
 		getQuestions();
 		displayQuestion();
 	}
